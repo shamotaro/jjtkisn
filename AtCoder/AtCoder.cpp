@@ -3,23 +3,20 @@
 
 using namespace std;
 
-// ABC042_B
+// ABC042_C
 
-// 配列の最初から順に順番が逆の箇所をチェック
-// 回数を重ねるごとに末尾のチェックは不要
-// 順番が１度も入れ替わらずに最後までチェックが終われば完了
 vector<string> bblSort(vector<string> vStr)
 {
     int n = vStr.size();
 
     // バブルソートの最大回数
-    for (int i = 0; i < n-1; i++)
+    for (int i = 0; i < n - 1; i++)
     {
         // 入れ替えが発生したらfalseに変える
         bool flg = true;
 
         // 先頭からどこまでチェック対象か
-        for (int j = 0; j < n-i-1; j++)
+        for (int j = 0; j < n - i - 1; j++)
         {
             string s1, s2;
             s1 = vStr[j];
@@ -39,7 +36,6 @@ vector<string> bblSort(vector<string> vStr)
 
     return vStr;
 }
-
 
 int main()
 {
@@ -63,6 +59,7 @@ int main()
         vStr[i] = str;
     }
     
+
     vector<string> vAnsStr = bblSort(vStr);
 
     string ansStr = "";
