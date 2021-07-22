@@ -5,37 +5,10 @@ using namespace std;
 
 // ABC042_C
 
-vector<string> bblSort(vector<string> vStr)
-{
-    int n = vStr.size();
+// 外部関数のプロトタイプ宣言（extern は省略可）
+// 提出する際は該当のソースコードを貼り付ける
+extern vector<string> bblSort(vector<string> vStr); 
 
-    // バブルソートの最大回数
-    for (int i = 0; i < n - 1; i++)
-    {
-        // 入れ替えが発生したらfalseに変える
-        bool flg = true;
-
-        // 先頭からどこまでチェック対象か
-        for (int j = 0; j < n - i - 1; j++)
-        {
-            string s1, s2;
-            s1 = vStr[j];
-            s2 = vStr[j + 1];
-
-            // 文字型による演算 s1 - s2 の結果が正だと入れ替え
-            if (s1.compare(s2) > 0)
-            {
-                vStr[j] = s2;
-                vStr[j + 1] = s1;
-                flg = false;
-            }
-        }
-
-        if (flg) break;
-    }
-
-    return vStr;
-}
 
 int main()
 {
