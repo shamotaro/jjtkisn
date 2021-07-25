@@ -4,117 +4,81 @@
 
 using namespace std;
 
-// ABC042_C
+// データ型の記載省略
+using ll = long long;
+
+// ABC042_D
 
 // 外部関数のプロトタイプ宣言（extern は省略可）
 // 提出する際は使った該当のソースコードを貼り付ける
 extern int ctoi(char c);
 
+// 縦：H、横：Wの帳票系の全経路探索パターンを求める
+ll hwPhw(long h, long w, long mod)
+{
+    ll ans = 1;
+    long n = h + w;
+
+    long b = h, s = w;
+    if (h < w)
+    {
+        b = w;
+        s = h;
+    }
+
+    for (long i = n; i > b; i--) ans *= i % mod;
+    for (long i = s; i > 0; i--) ans /= i % mod;
+
+    if (ans < 0) ans += mod;
+
+    return ans;
+}
+
 
 int main()
 {
     
-    // D[k]の数字が出現しない支払金額にする
+    // H*Wの長方形の全通り探索
+    // 全通りの計算式：(H+W-2)!/(H-1)!/(W-1)!
 
-    // Nより大きくて嫌いな数字の入っていない最小金額を求める
-    // 最上位の桁から順に見ていく
-    // 上の桁がピッタリの場合とそうでない場合で分岐する
-    // 下の桁全てが上の数字を使えない場合は、最上位桁を繰り上げる
+    long MOD = 1000000007;
 
-    string n;
-    int k;
-    cin >> n;
-    cin >> k;
+    long h, w, a, b;
+    cin >> h >> w >> a >> b;
 
-    // 0-9の中で使える数字はtrue
-    vector<bool> vd(10, true);
+    ll allPtn = 0;
     
-    for (int i = 0; i < k; i++)
+    if (a != 1 || b != 1)
     {
-        int tmp;
-        cin >> tmp;
-        vd[tmp] = false;
-    }
+        ll sO = 0, X = 0, eO = 0;
+        for (long i = 0; i < h-a; i++)
+        {
+            if (i == 0) sO = 1;
+            else sO = hwPhw(i, b - 1, MOD);
 
-    // 使える最小の数字
-    int minN;
-    for (int i = 0; i < 10; i++)
-    {
-        if (vd[i])
-        {
-            minN = i;
-            break;
-        }
-    }
-    
-    int nLen = n.length();
-    bool topFlg = true; // (現時点の)最上桁の数字でぴったがOKな場合True
+            ll tmpPtn = 0;
 
-    string ansStr = "";
-    for (int i = 0; i < nLen; i++)
-    {
-        int tmpN = ctoi(n[i]);
-        if (topFlg)
-        {
-            // (現時点の)最上桁の数字を使用できない場合
-            if (!vd[tmpN])
+            for (long j = 0; j < w-b; j++)
             {
-                topFlg = false;
-                for (int j = tmpN + 1; j < 10; j++)
-                {
-                    if (vd[j])
-                    {
-                        ansStr += to_string(j);
-                        break;
-                    }
-                }
+                if (i == h - a - 1 || j == 0) X = 1;
+                else X = hwPhw(h - a - i - 1, j, MOD);
+
+                if (j == w-b-1) eO = 1;
+                else eO = hwPhw(a - 1, w - b - j - 1, MOD);
+
+                tmpPtn += X * eO % MOD;
+                
             }
-            else
-            {
-                ansStr += n[i];
-            }
-        }
-        else
-        {
-            // 使用できる１番小さい数字を選ぶ
-            ansStr += to_string(minN);
+            allPtn += sO * tmpPtn % MOD;
         }
     }
-
-    // 最上位桁の繰り上げ考慮が必要な場合
-    if (ansStr.compare(n) < 0)
+    else
     {
-        int tmpN = ctoi(n[0]);
-        ansStr = "";
-
-        for (int i = tmpN+1; i < 10; i++)
-        {
-            if (vd[i])
-            {
-                ansStr += to_string(i);
-                break;
-            }
-        }
-
-        // 桁を増やす考慮が必要な場合
-        if (ansStr == "")
-        {
-            for (int i = 1; i < 10; i++)
-            {
-                if (vd[i])
-                {
-                    ansStr += to_string(i);
-                    ansStr += to_string(minN);
-                    break;
-                }
-            }
-        }
-
-        for (int i = 1; i < nLen; i++)
-        {
-            ansStr += to_string(minN);
-        }
+        allPtn = hwPhw(h - 1, w - 1, MOD);
+        allPtn -= 1;
     }
-    
-    cout << ansStr;
+
+    if (allPtn < 0) allPtn += MOD;
+
+    cout << allPtn;
 }
