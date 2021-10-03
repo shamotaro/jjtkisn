@@ -8,7 +8,7 @@ using namespace std;
 // 配列の最初から順に順番が逆の箇所をチェック
 // 回数を重ねるごとに末尾のチェックは不要
 // 順番が１度も入れ替わらずに最後までチェックが終われば完了
-vector<string> bblSort(vector<string> vStr)
+vector<string> bblSort_(vector<string> vStr)
 {
     int n = vStr.size();
 
@@ -39,6 +39,5 @@ vector<string> bblSort(vector<string> vStr)
 
     return vStr;
 }
-
 
 

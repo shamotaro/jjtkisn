@@ -5,20 +5,20 @@ using namespace std;
 
 
 // “š‚¦‚ğ‚Q•ª’Tõ‚µ‚Ä‚¢‚­
-int ansSearch(int left, int right, vector<int> vi, int k)
+int ansSearch_(int left, int right, vector<int> vInt, int k)
 {
     int ans = 0;
-    int n = vi.size();
+    int n = vInt.size();
 
     while (left < right)
     {
         ans = (left + right) / 2;
 
-        // š‚¨‚»‚ç‚­ˆ—“à—e‚à–ˆ‰ñˆá‚¤š
+        // š‚¨‚»‚ç‚­ˆ—“à—e‚Í–ˆ‰ñˆá‚¤š
         int sum = 0, cntk = 0;
         for (int i = 0; i < n; i++)
         {
-            sum += vi[i];
+            sum += vInt[i];
             if (sum >= ans)
             {
                 cntk++;
@@ -36,3 +36,5 @@ int ansSearch(int left, int right, vector<int> vi, int k)
 
     return ans;
 }
+
+
