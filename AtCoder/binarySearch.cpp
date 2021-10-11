@@ -4,8 +4,6 @@
 using namespace std;
 
 
-long MOD = 998244353;
-
 // “š‚¦‚ğ‚Q•ª’Tõ‚µ‚Ä‚¢‚­
 int ansSearch_(int left, int right, vector<int> vInt, int k)
 {
@@ -41,7 +39,7 @@ int ansSearch_(int left, int right, vector<int> vInt, int k)
 
 
 
-void dp()
+void dp(long MOD)
 {
 
     int MAX = 3000;
