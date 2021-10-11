@@ -11,58 +11,68 @@ typedef long long ll;
 
 
 // 外部ファイルから関数をコピーするときは末尾の"_"を消す
-int ctoi(char c)
-{
-    if (c >= '0' && c <= '9') return c - '0';
-
-    return -1;
-}
 
 
-
-long MOD = 1000000007;
+long MOD = 998244353;
 
 
 int main()
 {
+    int MAX = 3000;
 
-    int n;
+    long n;
     cin >> n;
 
-    int pCnt = 200000;
+    vector<int> a;
+    vector<int> b;
+    for (long i = 0; i < n; i++)
+    {
+        int tmp;
+        cin >> tmp;
+        a.push_back(tmp);
+    }
     
-    // 入力を受け取るpair
-    // ログイン日、ログイン最終日をキー(左)に入れる
-    // 値(右)にログイン日の場合は１、最終日の場合は-1を入れる
-    vector<pair<int, int>> vpii;
-    vector<int> vAns(pCnt, 0);
-
-    int st, en;
-    for (int i = 0; i < n; i++)
+    for (long i = 0; i < n; i++)
     {
-        cin >> st >> en;
-        vpii.push_back(make_pair(st, 1));
-        vpii.push_back(make_pair(st+en, -1));
+        int tmp;
+        cin >> tmp;
+        b.push_back(tmp);
     }
 
-    // pairのキーをもとに昇順に並べる
-    sort(vpii.begin(), vpii.end());
+    // 動的計画法でN番目の部分(末尾)から求める
+    // 数の制限があるbの値側から求める
+    vector<long> dp(MAX+1, 0); // 添え字と合わせるために＋１
+    int an = a[n-1];
+    int bn = b[n-1];
 
-    // まずは最初のログイン者１人、cntに1を代入
-    // その後は以下の処理を繰り返す
-    // 誰でもいいからログイン開始日が出てきたらcnt++
-    // 誰でもいいからログイン終了日が出てきたらcnt--
-    // cntの値が変わったとき、vAns[cnt]+=(cntが変わらなかった期間)
-    int tmp = vpii[0].first;
-    int cnt = 1;
-    for (int i = 1; i < 2*n; i++)
+    // N番目だけだとすると、自身の数字のみで１通り
+    for (long i = an; i <= bn; i++) dp[i] = 1;
+
+    long sum = 0;
+
+    for (long i = n-2; i >= 0; i--)
     {
-        vAns[cnt] += vpii[i].first - tmp;
-        tmp = vpii[i].first;
-        cnt += vpii[i].second;
+        sum = 0;
+        for (long j = bn; j >= a[i]; j--)
+        {
+            sum += dp[j];
+            sum %= MOD;
+
+            // 現在のi番目はここまでのi以上の値の合計値(パターン)
+            // biより大きいdpiは今後使うことがないため0にする
+            if (j <= b[i]) dp[j] = sum;
+            else dp[j] = 0;
+        }
     }
 
-    for (int i = 1; i < n; i++) cout << vAns[i] << " ";
-    cout << vAns[n] << endl;
+    sum = 0;
+    for (int i = 0; i <= bn; i++)
+    {
+        sum += dp[i];
+    }
+
+    sum += MOD;
+
+    cout << sum % MOD;
 
 }

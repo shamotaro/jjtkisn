@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="AtCoder.cpp" />
     <ClCompile Include="binarySearch.cpp" />
+    <ClCompile Include="calculation.cpp" />
     <ClCompile Include="convert.cpp" />
     <ClCompile Include="sort.cpp" />
   </ItemGroup>
