@@ -39,7 +39,7 @@ int ansSearch_(int left, int right, vector<int> vInt, int k)
 
 
 
-void dp(long MOD)
+void dp_(long MOD)
 {
 
     int MAX = 3000;
