@@ -13,5 +13,5 @@ using namespace std;
 // AND：b1 = b1 & b2;
 // 左シフト：b1 = b1 << 1;　、　右シフト(2ビット)：b1 = b1 >> 2;
 
-
+// sort(data.begin(),data.end(),std::greater<int>());//降順ソート
 

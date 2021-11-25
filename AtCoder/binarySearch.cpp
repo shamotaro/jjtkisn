@@ -96,3 +96,58 @@ void dp_(long MOD)
     cout << sum % MOD;
 }
 
+
+// 素結合データ構造
+struct UnionFind
+{
+    vector<int> par; // 親
+    vector<int> rank; // 要素数
+
+    // コンストラクタ
+    // 最初は全ての要素が独立している集合を作る
+    UnionFind(int n)
+    {
+        par.resize(n);
+        rank.resize(n);
+        for (int i = 0; i < n; i++)
+        {
+            par[i] = i; // 初めはノード１個の木なので根は自身
+            rank[i] = 1;
+        }
+    }
+
+    // 要素の根の値を求める
+    int root(int x)
+    {
+        if (par[x] == x) return x; // 自身が親だった
+        else return par[x] = root(par[x]); // 自身が親となる要素まで再帰呼び出し
+    }
+
+    // ２つの要素が同じ木に属するかを判定
+    bool same(int x, int y)
+    {
+        return root(x) == root(y);
+    }
+
+    // 要素同士を結合する(該当の要素が集合の一部の場合は集合の結合)
+    void unite(int x, int y)
+    {
+        // まずは結合のためにそれぞれの根を求める
+        x = root(x);
+        y = root(y);
+
+        // もし同じ木に属していたら何もしない
+        if (x == y) return;
+
+        // 数が大きい木に小さい木(集合)を結合させる
+        if (rank[x] < rank[y]) swap(x, y);
+        par[y] = x;
+        rank[x] += rank[y];
+    }
+
+    //連結数を返す
+    int size(int x)
+    {
+        return rank[root(x)];
+    }
+};
